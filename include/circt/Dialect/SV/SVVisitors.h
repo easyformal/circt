@@ -40,7 +40,7 @@ public:
             // Other Statements.
             AssignOp, BPAssignOp, PAssignOp, ForceOp, ReleaseOp, AliasOp,
             FWriteOp, SystemFunctionOp, VerbatimOp, MacroRefOp, FuncCallOp,
-            FuncCallProceduralOp, ReturnOp,
+            FuncCallProceduralOp, ReturnOp, IncludeOp,
             // Type declarations.
             InterfaceOp, InterfaceSignalOp, InterfaceModportOp,
             InterfaceInstanceOp, GetModportOp, AssignInterfaceSignalOp,
@@ -63,7 +63,9 @@ public:
             // For statements
             ForOp,
             // Sampled value functiions
-            SampledOp>([&](auto expr) -> ResultType {
+            SampledOp,
+            // Time system functions
+            TimeOp, STimeOp>([&](auto expr) -> ResultType {
           return thisCast->visitSV(expr, args...);
         })
         .Default([&](auto expr) -> ResultType {
@@ -137,6 +139,7 @@ public:
   HANDLE(ReturnOp, Unhandled);
   HANDLE(VerbatimOp, Unhandled);
   HANDLE(MacroRefOp, Unhandled);
+  HANDLE(IncludeOp, Unhandled);
 
   // Type declarations.
   HANDLE(InterfaceOp, Unhandled);
@@ -188,6 +191,10 @@ public:
 
   // Sampled Value Functions
   HANDLE(SampledOp, Unhandled);
+
+  // Time System Functions
+  HANDLE(TimeOp, Unhandled);
+  HANDLE(STimeOp, Unhandled);
 #undef HANDLE
 };
 
